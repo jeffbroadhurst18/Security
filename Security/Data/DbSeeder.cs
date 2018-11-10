@@ -49,6 +49,7 @@ namespace Security.Data
 			{
 				UserName = "Admin",
 				Email = "admin@email.com",
+				SecurityStamp = Guid.NewGuid().ToString()
 			};
 
 			if (await UserManager.FindByIdAsync(user_Admin.Id) == null)
@@ -64,12 +65,13 @@ namespace Security.Data
 				UserName = "Jeff",
 				Email = "jeff@email.com",
 				EmailConfirmed = true,
-				LockoutEnabled = false
+				LockoutEnabled = false,
+				SecurityStamp = Guid.NewGuid().ToString()
 			};
 
 			if (await UserManager.FindByIdAsync(user_Jeff.Id) == null)
 			{
-				await UserManager.CreateAsync(user_Admin, "Pass4Jeff");
+				await UserManager.CreateAsync(user_Jeff, "Pass4Jeff");
 				await UserManager.AddToRoleAsync(user_Jeff, role_Registered);
 			}
 

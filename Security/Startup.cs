@@ -23,11 +23,13 @@ namespace Security
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 			services.AddEntityFrameworkSqlServer();
+			services.AddTransient<DbSeeder>();
 
 			services.AddIdentity<ApplicationUser, IdentityRole>(config =>
 			{
 				config.User.RequireUniqueEmail = true;
 				config.Password.RequireDigit = true;
+				config.Password.RequireNonAlphanumeric = false;
 			}).AddEntityFrameworkStores<LocationContext>().AddDefaultTokenProviders();
 
 			services.AddDbContext<LocationContext>(options =>
@@ -35,7 +37,7 @@ namespace Security
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbSeeder dbSeeder)
 		{
 			if (env.IsDevelopment())
 			{
@@ -48,6 +50,7 @@ namespace Security
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
+			dbSeeder.SeedAsync().Wait();
 		}
 	}
 }
