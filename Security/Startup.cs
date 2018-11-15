@@ -45,6 +45,19 @@ namespace Security
 			services.AddDbContext<LocationContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("LocationContext")));
 
+			//============
+			services.AddCors(cfg => {
+
+				cfg.AddPolicy("AnyGET", bldr =>
+				{
+					bldr.AllowAnyHeader().
+					AllowAnyMethod().
+					AllowAnyOrigin();
+				});
+			});
+
+			//====
+
 			// configure jwt authentication
 			// This used when checking incoming requests
 			var appSettings = appSettingsSection.Get<AppSettings>();

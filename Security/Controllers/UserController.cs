@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Security.Classes;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace WebApi.Controllers
 {
@@ -18,6 +19,7 @@ namespace WebApi.Controllers
 		}
 
 		[AllowAnonymous]
+		[EnableCors("AnyGET")]
 		[HttpPost("authenticate")]
 		public  async Task<IActionResult> Authenticate([FromBody]UserPassword userPassword)
 		{
@@ -28,7 +30,13 @@ namespace WebApi.Controllers
 
 			var token = _userService.Authenticate(user);
 
-			return Ok(token);
+			var returnedUser = new ReturnedUser
+			{
+				User = user,
+				token = token
+			};
+
+			return Ok(returnedUser);
 		}
 	}
 }

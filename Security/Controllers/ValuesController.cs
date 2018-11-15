@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Security.Classes;
 using Security.Data;
@@ -22,6 +23,7 @@ namespace Security.Controllers
 		}
 
 		// GET api/values
+		[EnableCors("AnyGET")]
 		[HttpGet]
 		public IActionResult Get()
 		{
