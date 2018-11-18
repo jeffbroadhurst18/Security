@@ -16,6 +16,7 @@ namespace Security.Data
 		}
 
 		public DbSet<Location> Locations { get; set; }
+		public DbSet<Parkrun> Parkruns { get; set; }
 		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

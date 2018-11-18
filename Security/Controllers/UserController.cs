@@ -21,9 +21,9 @@ namespace WebApi.Controllers
 		[AllowAnonymous]
 		[EnableCors("AnyGET")]
 		[HttpPost("authenticate")]
-		public  async Task<IActionResult> Authenticate([FromBody]UserPassword userPassword)
+		public  async Task<IActionResult> Authenticate([FromBody]UserLogonDetails userLogonDetails)
 		{
-			var user = await _userService.GetUser(userPassword.username, userPassword.password);
+			var user = await _userService.GetUser(userLogonDetails.username, userLogonDetails.password);
 
 			if (user == null)
 				return BadRequest(new { message = "Username or password is incorrect" });
