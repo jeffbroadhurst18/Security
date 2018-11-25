@@ -19,5 +19,12 @@ namespace Security.Classes
 		{
 			return _dbContext.Parkruns.OrderBy(o => o.RaceDate).ToList();
 		}
+
+		public List<Parkrun> GetParkrunsByYear(int year)
+		{
+			var start = new DateTime(year, 1, 1);
+			var end = new DateTime(year, 12, 31);
+			return _dbContext.Parkruns.Where(y => y.RaceDate >= start && y.RaceDate <= end).OrderBy(o => o.RaceDate).ToList();
+		}
 	}
 }

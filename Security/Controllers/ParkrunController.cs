@@ -26,18 +26,27 @@ namespace Security.Controllers
 		// GET: api/Parkrun
 		[EnableCors("AnyGET")]
 		[HttpGet]
-        public IEnumerable<Parkrun> Get()
+        public IActionResult Get()
         {
 			var parkruns = _parkrunService.GetAllParkruns();
-			return parkruns;
+			return Ok(parkruns);
         }
 
-        // GET: api/Parkrun/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+		[EnableCors("AnyGET")]
+		[Route("year/{year}")]
+		[HttpGet("{year}", Name = "Get")]
+		public IActionResult Get(int year)
+		{
+			var parkruns = _parkrunService.GetParkrunsByYear(year);
+			return Ok(parkruns);
+		}
+
+		//// GET: api/Parkrun/5
+		//[HttpGet("{id}", Name = "Get")]
+  //      public string Get(int id)
+  //      {
+  //          return "value";
+  //      }
 
         // POST: api/Parkrun
         [HttpPost]
