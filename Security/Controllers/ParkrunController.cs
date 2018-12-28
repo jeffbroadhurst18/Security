@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Security.Classes;
 using Security.Data;
 
@@ -13,6 +14,7 @@ namespace Security.Controllers
 {
 	[Authorize]
 	[Route("api/[controller]")]
+	[Produces("application/json")]
     [ApiController]
     public class ParkrunController : ControllerBase
     {
@@ -33,26 +35,29 @@ namespace Security.Controllers
         }
 
 		[EnableCors("AnyGET")]
-		[Route("year/{year}")]
-		[HttpGet("{year}", Name = "Get")]
+		[HttpGet("{id}",Name = nameof(GetById))]
+		public IActionResult GetById(int id)
+		{
+			var parkrun = _parkrunService.GetParkunById(id);
+			return Ok(parkrun);
+		}
+
+		[EnableCors("AnyGET")]
+		[HttpGet("year/{year}", Name = "Get")]
 		public IActionResult Get(int year)
 		{
 			var parkruns = _parkrunService.GetParkrunsByYear(year);
 			return Ok(parkruns);
 		}
 
-		//// GET: api/Parkrun/5
-		//[HttpGet("{id}", Name = "Get")]
-  //      public string Get(int id)
-  //      {
-  //          return "value";
-  //      }
-
         // POST: api/Parkrun
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] string value)
         {
-        }
+			var parkrun = JsonConvert.DeserializeObject<Parkrun>(value);
+			var id = await _parkrunService.CreateParkrun(parkrun);
+			return CreatedAtRoute("api/[controller]", new { id = id }, parkrun);
+		}
 
         // PUT: api/Parkrun/5
         [HttpPut("{id}")]

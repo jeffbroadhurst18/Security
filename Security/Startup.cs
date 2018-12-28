@@ -26,7 +26,7 @@ namespace Security
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddCors();
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddXmlSerializerFormatters(); ;
 
 			// configure strongly typed settings objects
 			var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -80,6 +80,20 @@ namespace Security
 				};
 			});
 
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v2", new Swashbuckle.AspNetCore.Swagger.Info
+				{
+					Title = "Parkrun API",
+					Version = "v2",
+					Description = "Get info about Jeff's parkruns",
+					License = new Swashbuckle.AspNetCore.Swagger.License
+					{
+						Name = "Test Licence"
+					}
+				});
+			});
+
 			// configure DI for application services
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IParkrunService, ParkrunService>();
@@ -102,6 +116,9 @@ namespace Security
 			app.UseAuthentication();
 
 			app.UseMvc();
+
+			app.UseSwagger();
+			app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v2/swagger.json", "Parkrun API"));
 			dbSeeder.SeedAsync().Wait();
 		}
 	}

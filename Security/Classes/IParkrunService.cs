@@ -1,5 +1,6 @@
 ﻿using Security.Data;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Security.Classes
 {
@@ -7,5 +8,7 @@ namespace Security.Classes
 	{
 		List<Parkrun> GetAllParkruns();
 		List<Parkrun> GetParkrunsByYear(int year);
+		Task<int> CreateParkrun(Parkrun parkrun);
+		Parkrun GetParkunById(int id);
 	}
 }
