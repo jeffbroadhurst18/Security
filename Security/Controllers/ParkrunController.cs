@@ -56,7 +56,7 @@ namespace Security.Controllers
         {
 			var parkrun = JsonConvert.DeserializeObject<Parkrun>(value);
 			var id = await _parkrunService.CreateParkrun(parkrun);
-			return CreatedAtRoute("api/[controller]", new { id = id }, parkrun);
+			return CreatedAtRoute(nameof(GetById), new { id = id }, parkrun);
 		}
 
         // PUT: api/Parkrun/5
