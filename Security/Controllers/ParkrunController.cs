@@ -52,17 +52,18 @@ namespace Security.Controllers
 
         // POST: api/Parkrun
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Parkrun parkrun)
         {
-			var parkrun = JsonConvert.DeserializeObject<Parkrun>(value);
 			var id = await _parkrunService.CreateParkrun(parkrun);
 			return CreatedAtRoute(nameof(GetById), new { id = id }, parkrun);
 		}
 
         // PUT: api/Parkrun/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Parkrun parkrun)
         {
+			var val = await _parkrunService.UpdateParkrun(parkrun);
+			return new NoContentResult();
         }
 
         // DELETE: api/ApiWithActions/5

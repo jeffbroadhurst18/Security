@@ -10,5 +10,6 @@ namespace Security.Classes
 		List<Parkrun> GetParkrunsByYear(int year);
 		Task<int> CreateParkrun(Parkrun parkrun);
 		Parkrun GetParkunById(int id);
+		Task<int> UpdateParkrun(Parkrun parkrun);
 	}
 }

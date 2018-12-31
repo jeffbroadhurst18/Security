@@ -38,5 +38,11 @@ namespace Security.Classes
 		{
 			return _dbContext.Parkruns.First(p => p.Id == id);
 		}
+
+		public Task<int> UpdateParkrun(Parkrun parkrun)
+		{
+			_dbContext.Update(parkrun);
+			return _dbContext.SaveChangesAsync();
+		}
 	}
 }
