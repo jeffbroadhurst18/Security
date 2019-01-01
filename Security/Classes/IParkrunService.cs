@@ -11,5 +11,6 @@ namespace Security.Classes
 		Task<int> CreateParkrun(Parkrun parkrun);
 		Parkrun GetParkunById(int id);
 		Task<int> UpdateParkrun(Parkrun parkrun);
+		Task DeleteParkrun(int id);
 	}
 }

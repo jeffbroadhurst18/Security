@@ -22,6 +22,16 @@ namespace Security.Classes
 			return parkrun.Id;
 		}
 
+		public async Task DeleteParkrun(int id)
+		{
+			var parkrun = _dbContext.Parkruns.Where(p => p.Id == id).First();
+			if (parkrun != null)
+			{
+				_dbContext.Remove(parkrun);
+				await _dbContext.SaveChangesAsync();
+			}
+		}
+
 		public List<Parkrun> GetAllParkruns()
 		{
 			return _dbContext.Parkruns.OrderBy(o => o.RaceDate).ToList();

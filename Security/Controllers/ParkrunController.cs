@@ -66,10 +66,12 @@ namespace Security.Controllers
 			return new NoContentResult();
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+		// DELETE: api/Parkrun/5
+		[HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+			await _parkrunService.DeleteParkrun(id);
+			return Ok();
         }
     }
 }
